@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CCS Elections 2024</title>
+  <link rel="shortcut icon" href="#">
+  <style>
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      padding: 20px;
+    }
+    .position-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 200px;
+      padding: 20px;
+      margin: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+    .position-image {
+      width: 192px;  /* 2 inches converted to pixels */
+      height: 192px; /* Maintain a 2x2 inch size */
+      object-fit: cover; /* Ensure the image covers the area without distortion */
+      margin-bottom: 10px;
+    }
+    .position-title {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    .count {
+      font-size: 24px;
+      color: #0275d8;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="governorContainer" class="position-container">
+      <img src="/governor.jpg" alt="Governor" class="position-image">
+      <div class="position-title">Governor</div>
+      <div id="governorCount" class="count"><%= jsonData.governorCount %></div>
+    </div>
+    <div id="viceGovernorContainer" class="position-container">
+      <img src="/vicegov.jpg" alt="Vice Governor" class="position-image">
+      <div class="position-title">Vice Governor</div>
+      <div id="viceGovernorCount" class="count"><%= jsonData.viceGovernorCount %></div>
+    </div>
+    <div id="secretaryContainer" class="position-container">
+      <img src="/secretary.jpg" alt="Secretary" class="position-image">
+      <div class="position-title">Secretary</div>
+      <div id="secretaryCount" class="count"><%= jsonData.secretaryCount %></div>
+    </div>
+    <div id="treasurerContainer" class="position-container">
+      <img src="/treasurer.jpg" alt="Treasurer" class="position-image">
+      <div class="position-title">Treasurer</div>
+      <div id="treasurerCount" class="count"><%= jsonData.treasurerCount %></div>
+    </div>
+    <div id="auditorContainer" class="position-container">
+      <img src="/auditor.jpg" alt="Auditor" class="position-image">
+      <div class="position-title">Auditor</div>
+      <div id="auditorCount" class="count"><%= jsonData.auditorCount %></div>
+    </div>
+    <div id="PROContainer" class="position-container">
+      <img src="/pro.jpg" alt="P.R.O." class="position-image">
+      <div class="position-title">P.R.O.</div>
+      <div id="PROCount" class="count"><%= jsonData.PROCount %></div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const updateData = async () => {
+        try {
+          console.log("Updating data...");
+          const response = await fetch('/data');
+          const jsonData = await response.json();
+
+          document.getElementById('governorCount').textContent = jsonData.governorCount;
+          document.getElementById('viceGovernorCount').textContent = jsonData.viceGovernorCount;
+          document.getElementById('secretaryCount').textContent = jsonData.secretaryCount;
+          document.getElementById('treasurerCount').textContent = jsonData.treasurerCount;
+          document.getElementById('auditorCount').textContent = jsonData.auditorCount;
+          document.getElementById('PROCount').textContent = jsonData.PROCount;
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+
+      setInterval(updateData, 4000);
+      updateData();  // Initial call to populate data immediately
+    });
+  </script>
+</body>
+</html>
